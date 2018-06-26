@@ -14,3 +14,6 @@ npm run react-dev
 npm run server-dev
 ```
 ...then go to http://localhost:3000 on your browser.
+
+
+<img width="1437" alt="screen shot 2018-06-25 at 9 32 29 pm" src="https://user-images.githubusercontent.com/19557880/41889943-08ca0e86-78c2-11e8-8015-09b79d4016f5.png">
