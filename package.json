@@ -18,12 +18,19 @@
   },
   "dependencies": {
     "angular": "^1.6.3",
+    "antd": "^3.6.3",
+    "babel-plugin-import": "^1.8.0",
     "body-parser": "^1.17.2",
+    "bootstrap-datepicker": "^1.8.0",
     "express": "^4.15.0",
     "jquery": "^3.1.1",
+    "moment": "^2.22.2",
+    "moment-timezone": "^0.5.20",
     "mongoose": "^4.8.6",
     "mysql": "^2.13.0",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react": "^15.6.2",
+    "react-bootstrap-datetimepicker": "0.0.22",
+    "react-bootstrap-time-picker": "^1.0.3",
+    "react-dom": "^15.6.2"
   }
 }

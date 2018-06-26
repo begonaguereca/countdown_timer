@@ -1,8 +1,12 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import List from './components/List.jsx';
-import Clock_input from './components/clock_input.jsx';
+import Times from './components/Times.jsx';
+import Buttons from './components/Buttons.jsx';
+import Clock from './components/Clock.jsx';
+import Header from './components/Header.jsx';
+import Helper from './helper/helper.js'
 
 class App extends React.Component {
   constructor(props) {
@@ -10,51 +14,79 @@ class App extends React.Component {
     this.state = {
       start: "00:00:00",
       end: "00:00:00",
-      watch: "00:00:00"
+      time: "00:00:00",
+      stop: false
     }
     this.handleStart = this.handleStart.bind(this);
     this.handleEnd = this.handleEnd.bind(this);
+    this.decrementTime = this.decrementTime.bind(this);
+    this.clearTime = this.clearTime.bind(this);
   }
 
   handleStart(updated) {
     this.setState({start: updated});
   }
 
-  handleEnd(upadted) {
+  handleEnd(updated) {
     this.setState({end: updated});
   }
 
+  decrementTime() {
+    Helper.twoVals();
 
-  // componentDidMount() {
-  //   $.ajax({
-  //     url: '/items',
-  //     success: (data) => {
-  //       this.setState({
-  //         items: data
-  //       })
-  //     },
-  //     error: (err) => {
-  //       console.log('err', err);
-  //     }
-  //   });
-  // }
+    let validInput = Helper.checkValidEntry(this.state.start, this.state.end);
+
+    if(validInput) {
+      let diff = Helper.subtractTimes(this.state.start, this.state.end);
+      this.setState({time: diff});
+
+      let arrTime = diff.split(':'),
+      sec = parseInt(arrTime[2]),
+      min = parseInt(arrTime[1]),
+      hours = parseInt(arrTime[0]);
+
+      var reduceTime = setInterval(() => {
+        if(this.state.stop) {
+          clearInterval(reduceTime);
+          this.setState({stop: false});
+        } else {
+          if(sec > 0) {
+            sec--;
+          } else if (!sec && min && !hours) {
+            sec = 59;
+            min--;
+          } else if (!sec && min && hours) {
+            sec = 59;
+            min--;
+          }else if (!sec && !min && hours) {
+            sec = 59;
+            min = 59;
+            hours--;
+          } else {
+            clearInterval(reduceTime);
+          }
+          let newTime = Helper.twoVals(hours) + ':' + Helper.twoVals(min) + ':' + Helper.twoVals(sec);
+          this.setState({time: newTime});
+        }
+      }, 1000);
+    }
+  }
+
+  clearTime() {
+    this.setState({stop: true});
+    this.setState({time: "00:00:00"});
+    this.setState({start: "00:00:00"});
+    this.setState({end: "00:00:00"});
+  }
+
 
   render () {
     return (
     <div className="container-fluid">
-
-      <div className="row align-items-center">
-        <div className="col-md-12">
-          <h1 className="text-center">Simple Countdown Timer</h1>
-        </div>
-      </div>
-
-      <div className="row align-items-center">
-        <div className="col-md-12">
-          <Clock_input start={this.state.start} end={this.state.end} handleStart={this.handleStart} handleEnd={this.handleEnd}/>
-        </div>
-      </div>
-
+      <Header />
+      <Clock time={this.state.time} />
+      <Times start={this.state.start} end={this.state.end} handleStart={this.handleStart} handleEnd={this.handleEnd} />
+      <Buttons start = {this.state.start} time={this.state.time} firstTime={this.setInitialTime} clearTime={this.clearTime} decrement={this.decrementTime} />
     </div>
   )}
 }

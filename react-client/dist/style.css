@@ -1,0 +1,24 @@
+h1 {
+  color: white
+}
+
+body {
+  background-color: black;
+}
+#clock {
+  color: white;
+  font-weight: normal;
+  font-size: 200px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+#description {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.buttons {
+  margin-top: 20px;
+}
